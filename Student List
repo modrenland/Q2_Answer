@@ -1,0 +1,213 @@
+public class NodeQ2 {
+    int ID;
+    int WrgNo;
+    NodeQ2 next;  
+}
+ 
+
+public class QueueNode {
+    int info;
+    QueueNode Link;
+}
+
+public class LinkListQ2 {
+    private NodeQ2 list;
+    private NodeQ2 location;
+    private NodeQ2 predloc;
+    private  static int counter=0;  //student counter
+     Queue q1=new Queue();
+    
+    
+    void CreateList(){
+ //        function to create new list 
+
+        list = null;
+    }
+    
+    void DestroyList(){
+//        funciton to destroy all the list
+
+        list = null;
+    }
+    
+    boolean Emptylist(){
+//        function to check if the list is empty
+        if(list==null) 
+            return true;
+        else
+            return false;
+    }
+
+    void FindElement(int key) {
+//        function to search for an element using a given key
+        location = list;
+        predloc = null;
+        while(location != null){
+            if (location.ID == key) break;
+            else
+                if(location.ID > key) location = null;
+                else {
+                    predloc = location;
+                    location = location.next;
+                }
+        }
+    }
+    
+    void InsertElement(int key, int WrgNo ){  
+//      function to insert new node to the list
+
+        NodeQ2 ptr;
+        FindElement(key);
+        if(location != null) 
+            System.out.println("This Element Is Found");
+        else{
+            ptr = new NodeQ2();
+            ptr.ID = key;
+            ptr.WrgNo = WrgNo;
+            counter++;
+            System.out.println("Added Successfully!");
+            if (predloc == null){
+                ptr.next = list;
+                list = ptr;
+            }
+            else{
+                ptr.next = predloc.next;
+                predloc.next = ptr;
+            }
+        }
+    }
+    
+    
+    void PrintList(){
+//      function to print all the list
+
+        NodeQ2 ptr = list;
+        while(ptr != null){
+            System.out.println("the Student ID is =>"+ptr.ID);
+            System.out.println("the Student Warning  is =>"+ptr.WrgNo);
+            System.out.println("----------------------------------------");
+            ptr = ptr.next;
+        }
+    }
+    
+    void DeleteElement(int key){
+   //      function to delete an element from the list
+
+        FindElement(key);
+        if(location == null)
+            System.out.println("This Element Is Not Found");
+        else {
+            if(predloc == null)
+                list=location.next;
+            else
+                predloc.next = location.next;
+        }
+    }
+    
+    void dismissal(){
+    
+    NodeQ2 ptr=list;
+    while(ptr!=null){
+       if (ptr.WrgNo>3)
+       DeleteElement(ptr.ID);
+       ptr=ptr.next;
+       
+    }
+    
+    }
+    
+    void StudentsState(){
+        NodeQ2 ptr=list;
+        int Sum=0;
+        while(ptr!=null){
+          if(ptr.WrgNo>0)
+          Sum++;
+          ptr=ptr.next;
+        }
+        if(Sum>counter/2)
+          System.out.println("Bad Students");
+        if(Sum==0)
+          System.out.println("Good Students ");
+        
+     }
+     
+    void firstWarning(){
+      NodeQ2 ptr=list;
+      while(ptr!=null){
+        if(ptr.WrgNo==1)
+        q1.Enqueue(ptr.ID);
+        ptr=ptr.next;
+        }
+    } 
+    
+    
+    }
+    
+  import java.util.Scanner;
+
+public class MainQ2 {
+    public static void main(String[] args) {
+         Scanner sc = new Scanner(System.in);
+        LinkListQ2 list1 = new LinkListQ2();
+        int choice; 
+        int ID;
+        int Wrgno;
+      
+        
+        list1.CreateList();
+        while(true){
+            
+            displayMenu();
+             choice=sc.nextInt();
+          switch(choice){
+                case 1:
+                    System.out.println("Enter ID : ");
+                    ID = sc.nextInt();
+                    System.out.println("the Student Warning  = "); 
+                    Wrgno = sc.nextInt();
+                    list1.InsertElement(ID,Wrgno);
+                  
+                    break;
+                    case 2:
+                    if(list1.Emptylist()==true)
+                        System.out.println("The list is empty!");
+                    else{
+                        
+                        list1.dismissal();
+                        System.out.println("Added Successfully!");
+                        list1.PrintList();
+                    }
+                    break;
+        
+                    
+                case 3: 
+                    if(list1.Emptylist()==true)
+                        System.out.println("The list is empty");
+                    else{
+                        list1.StudentsState();
+                        list1.firstWarning();
+                        }
+                        
+                    break;
+                    
+                case 4:
+                    System.out.println("Good Bye!");
+                    System.exit(0);
+                    
+                default: 
+                    System.out.println("Invalid choice. Try again!");
+        
+    }
+     }
+     
+                                                       }
+      public static void displayMenu(){
+     System.out.println();
+     System.out.println("1. Insert Element");
+     System.out.println("2. Student Dismissal ");
+     System.out.println("3. Students State  ");
+     System.out.println("4. Exi");
+     System.out.println("Your choice: "); }
+    } 
+ 
+
